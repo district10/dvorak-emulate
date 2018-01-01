@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>DVORAK EMULATE</title>
+        <link href="jquery-ui.min.css" rel="stylesheet">
+        <link href="keyboard.css" rel="stylesheet">
+        <link href="demo.css" rel="stylesheet">
+        <link href="tipsy.css" rel="stylesheet">
+        <link href="prettify.css" rel="stylesheet">
+        <link href="docs/css/bootstrap.min.css" rel="stylesheet">
+        <link href="docs/css/font-awesome.min.css" rel="stylesheet">
+        <style>
+        #contenteditable {
+            width: 80%;
+            min-height: 300px;
+            margin: 10%;
+        }
+        </style>
+    </head>
+    <body>
+        <textarea id="contenteditable">dvorak (my mod version) emulation</textarea>
+
+        <script src="jquery-latest.min.js"></script>
+        <script src="jquery-ui.min.js"></script>
+        <script src="jquery.keyboard.js"></script>
+        <script src="jquery.mousewheel.js"></script>
+        <script src="jquery.keyboard.extension-typing.js"></script>
+        <script src="jquery.keyboard.extension-autocomplete.js"></script>
+        <script src="jquery.keyboard.extension-caret.js"></script>
+        <script src="bootstrap.min.js"></script>
+        <script src="demo.js"></script>
+        <script src="jquery.tipsy.min.js"></script>
+        <script src="prettify.js"></script>
+        <script>
+            $(document).ready(function(){
+
+                $.keyboard.keyaction.undo = function (base) {
+                    base.execCommand('undo');
+                    return false;
+                };
+                $.keyboard.keyaction.redo = function (base) {
+                    base.execCommand('redo');
+                    return false;
+                };
+
+                $('#contenteditable').keyboard({
+                    usePreview: false, // disabled for contenteditable
+                    useCombos: false,
+                    autoAccept: true,
+                    layout: 'custom',
+                    customLayout: {
+                        'normal': [
+                            '` 1 2 3 4 5 6 7 8 9 0 - = {del} {b}',
+                            '{tab} ;(q) ,(w) .(e) k(r) y(t) f(y) g(u) c(i) l(o) z(p) [ ] \\',
+                            'a o(s) e(d) i(f) u(g) d(h) r(j) t(k) s(l) n(;) \' {enter}',
+                            '{shift} p(z) q(x) j(c) h(v) x(b) b(n) m w(,) v(.) / {shift}',
+                            '{accept} {space} {left} {right} {undo:Undo} {redo:Redo}'
+                        ],
+                        'shift': [
+                            '~ ! @ # $ % ^ & * ( ) _ + {del} {b}',
+                            '{tab} :(Q) <(W) >(E) K(R) Y(T) F(Y) G(U) C(I) L(O) Z(P) { } |',
+                            'A O(S) E(D) I(F) U(G) D(H) R(J) T(K) S(L) N(:) " {enter}',
+                            '{shift} P(Z) Q(X) J(C) H(V) X(B) B(N) M W(<) V(>) ? {shift}',
+                            '{accept} {space} {left} {right} {undo:Undo} {redo:Redo}'
+                        ]
+                    },
+                    display: {
+                        del: '\u2326:Delete',
+                        redo: '↻',
+                        undo: '↺'
+                    }
+                })
+                .addTyping();
+
+            });
+        </script>
+    </body>
+</html>
