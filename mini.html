@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DVORAK EMULATE</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <style>
+            body, html {
+                margin: 5px;
+                padding: 5px;
+                font-family: "TIBch", "Classic Grotesque W01", "Helvetica Neue", Arial, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei", SimSun, sans-serif; // from TypeIsBeautiful.com
+            }
+        #textarea {
+            height:60%;
+            width:100%;
+            font-size:20pt;
+        }
+        #index {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+        }
+        </style>
+        <script type="text/javascript" src="qwerty2dvorak.js"> </script>
+        <script>
+            window.onload = function(e){
+                init(document.getElementById("textarea"));
+            };
+        </script>
+    </head>
+    <body >
+        <h1>DVORAK EMULATE</h1>
+        <textarea id="textarea"></textarea>
+        <a id="index" href="index.html">display virtual keyboard</a>
+    </body>
+</html>
