@@ -33,39 +33,36 @@ function qwerty2dvorak() {
         }
     }
     return ret;
-}
+};
 
-function caretPos(el) {
-    var pos = 0;
-    if (document.selection) {
-        el.focus();
-        var sel = document.selection.createRange();
-        var selLength = document.selection.createRange().text.length;
-        sel.moveStart('character', -el.value.length);
-        pos = sel.text.length - selLength;
-    } else if (el.selectionStart || el.selectionStart == '0') {
-        pos = el.selectionStart;
-    }
-    return pos;
-}
-
-function keyFilter(el, mapping) {
-    return function(e) {
-        var q = e.keyCode;
-        if (q in mapping) {
-            var pos = caretPos(el);
-            var left = el.value.substring(0, pos)
-            var right = el.value.substring(pos)
-            el.value = left + mapping[q] + right;
-            el.selectionStart = el.selectionEnd = pos+1;
-            e.preventDefault();
-            return false;
+function pluginDvorak(el){
+    function keyFilter(el, mapping) {
+        function caretPos(el) {
+            var pos = 0;
+            if (document.selection) {
+                el.focus();
+                var sel = document.selection.createRange();
+                var selLength = document.selection.createRange().text.length;
+                sel.moveStart('character', -el.value.length);
+                pos = sel.text.length - selLength;
+            } else if (el.selectionStart || el.selectionStart == '0') {
+                pos = el.selectionStart;
+            }
+            return pos;
         }
-        return true;
-    };
-}
-
-function init(el){
+        return function(e) {
+            var q = e.keyCode;
+            if (q in mapping) {
+                var pos = caretPos(el);
+                var left = el.value.substring(0, pos)
+                var right = el.value.substring(pos)
+                el.value = left + mapping[q] + right;
+                el.selectionStart = el.selectionEnd = pos+1;
+                e.preventDefault();
+                return false;
+            }
+            return true;
+        };
+    }
     el.addEventListener("keypress", keyFilter(el, qwerty2dvorak()), false);
 }
-
