@@ -1,28 +1,28 @@
 function qwerty2dvorak() {
     var mappings = [
         [
-            'qwertyuiop',
-            ';,.kyfgclz'
+            "qwertyuiop",
+            ";,.kyfgclz"
         ],
         [
-            'asdfghjkl;',
-            'aoeiudrtsn'
+            "asdfghjkl;",
+            "aoeiudrtsn"
         ],
         [
-            'zxcvbnm,./',
-            'pqjhxbmwv/'
+            "zxcvbnm,./",
+            "pqjhxbmwv/"
         ],
         [
-            'QWERTYUIOP',
-            ':<>KYFGCLZ',
+            "QWERTYUIOP",
+            ":<>KYFGCLZ",
         ],
         [
-            'ASDFGHJKL:',
-            'AOEIUDRTSN'
+            "ASDFGHJKL:",
+            "AOEIUDRTSN"
         ],
         [
-            'ZXCVBNM<>?',
-            'PQJHXBMWV?'
+            "ZXCVBNM<>?",
+            "PQJHXBMWV?"
         ]
     ];
     var ret = {};
@@ -43,9 +43,9 @@ function pluginDvorak(el){
                 el.focus();
                 var sel = document.selection.createRange();
                 var selLength = document.selection.createRange().text.length;
-                sel.moveStart('character', -el.value.length);
+                sel.moveStart("character", -el.value.length);
                 pos = sel.text.length - selLength;
-            } else if (el.selectionStart || el.selectionStart == '0') {
+            } else if (el.selectionStart || el.selectionStart == "0") {
                 pos = el.selectionStart;
             }
             return pos;
@@ -54,8 +54,8 @@ function pluginDvorak(el){
             var q = e.keyCode;
             if (q in mapping) {
                 var pos = caretPos(el);
-                var left = el.value.substring(0, pos)
-                var right = el.value.substring(pos)
+                var left = el.value.substring(0, pos);
+                var right = el.value.substring(pos);
                 el.value = left + mapping[q] + right;
                 el.selectionStart = el.selectionEnd = pos+1;
                 e.preventDefault();
