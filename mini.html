@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>DVORAK EMULATE</title>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="utf-8">
         <style>
             body, html {
@@ -10,27 +10,40 @@
                 padding: 5px;
                 font-family: "TIBch", "Classic Grotesque W01", "Helvetica Neue", Arial, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei", SimSun, sans-serif; // from TypeIsBeautiful.com
             }
-        #textarea {
-            height:60%;
-            width:100%;
-            font-size:20pt;
-        }
-        #index {
-            position: absolute;
-            left: 10px;
-            bottom: 10px;
-        }
+            textarea {
+                width:100%;
+                font-size:20pt;
+            }
+            #index {
+                position: absolute;
+                right: 20px;
+                top: 10px;
+            }
+            #container: {
+                padding: 10px;
+                border: 1px solid gray;
+            }
         </style>
+        <script type="text/javascript" src="http://tangzx.qiniudn.com/jquery.min.js"> </script>
         <script type="text/javascript" src="qwerty2dvorak.js"> </script>
         <script>
             window.onload = function(e){
                 pluginDvorak(document.getElementById("textarea"));
+                pluginDvorakDual(
+                    document.getElementById("input"),
+                    document.getElementById("output")
+                );
             };
         </script>
     </head>
     <body >
         <h1>DVORAK EMULATE</h1>
-        <textarea id="textarea"></textarea>
+        <textarea id="textarea" rows="1"></textarea>
+        <hr/>
+        <div id="container">
+            <textarea id="output" cols="50" rows="4"></textarea>
+            <textarea id="input" cols="50" rows="4"></textarea>
+        </div>
         <a id="index" href="index.html">display virtual keyboard</a>
     </body>
 </html>

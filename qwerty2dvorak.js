@@ -35,21 +35,22 @@ function qwerty2dvorak() {
     return ret;
 };
 
+function caretPos(el) {
+    var pos = 0;
+    if (document.selection) {
+        el.focus();
+        var sel = document.selection.createRange();
+        var selLength = document.selection.createRange().text.length;
+        sel.moveStart("character", -el.value.length);
+        pos = sel.text.length - selLength;
+    } else if (el.selectionStart || el.selectionStart == "0") {
+        pos = el.selectionStart;
+    }
+    return pos;
+}
+
 function pluginDvorak(el){
     function keyFilter(el, mapping) {
-        function caretPos(el) {
-            var pos = 0;
-            if (document.selection) {
-                el.focus();
-                var sel = document.selection.createRange();
-                var selLength = document.selection.createRange().text.length;
-                sel.moveStart("character", -el.value.length);
-                pos = sel.text.length - selLength;
-            } else if (el.selectionStart || el.selectionStart == "0") {
-                pos = el.selectionStart;
-            }
-            return pos;
-        }
         return function(e) {
             var q = e.keyCode;
             if (q in mapping) {
@@ -65,4 +66,18 @@ function pluginDvorak(el){
         };
     }
     el.addEventListener("keypress", keyFilter(el, qwerty2dvorak()), false);
+}
+
+function pluginDvorakDual(elInput, elOutput){
+    function keyFilter(elInput, mapping, elOutput) {
+        return function(e) {
+            var output = elInput.value.split("").map(function(c) {
+                return mapping[c.charCodeAt(0)] || c;
+            }).join("");
+            var pos = caretPos(elInput);
+            elOutput.value = output.substring(0, pos) + "\u2588" + output.substring(pos);
+        };
+    }
+    elInput.addEventListener("keyup", keyFilter(elInput, qwerty2dvorak(), elOutput), false);
+    $(elInput).on('scroll', function () { $(elOutput).scrollTop($(this).scrollTop()); });
 }
