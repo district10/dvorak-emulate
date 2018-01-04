@@ -12,7 +12,14 @@
             }
             textarea {
                 width:100%;
+            }
+            #input, #output {
                 font-size:20pt;
+                font-family: Monaco, Menlo, Consolas, "Courier New", Monospace, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", STXihei, Heiti, sans-serif;
+            }
+            .block:after {
+                content: "";
+                border-right: 1px solid red;
             }
             #index {
                 position: absolute;
@@ -41,7 +48,7 @@
         <textarea id="textarea" rows="1"></textarea>
         <hr/>
         <div id="container">
-            <textarea id="output" cols="50" rows="4"></textarea>
+            <div><pre><code id="output" cols="50" rows="4"></code></pre></div>
             <textarea id="input" cols="50" rows="4"></textarea>
         </div>
         <a id="index" href="index.html">display virtual keyboard</a>

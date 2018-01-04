@@ -68,21 +68,33 @@ function pluginDvorak(el) {
     el.addEventListener("keypress", keyFilter(el, qwerty2dvorak()), false);
 }
 
+function _map(array, iteratee) {
+    let index = -1;
+    const length = array == null ? 0 : array.length;
+    const result = new Array(length);
+    while (++index < length) {
+      result[index] = iteratee(array[index], index, array);
+    }
+    return result.join("");
+}
+
 function inputToOutputWithCursor(input, cursorPosition, cursorChar = "\u2588", mappingFn = qwerty2dvorak) {
     var mapping = mappingFn();
-    var output = input.split("").map(function(c) {
-        return mapping[c.charCodeAt(0)] || c;
-    }).join("");
+    var output = _map(input, function(c) { return mapping[c.charCodeAt(0)] || c; });
     return output.substring(0, cursorPosition) + cursorChar + output.substring(cursorPosition);
+}
+
+function updateInputOutput(elInput, elOutput) {
+    elOutput.innerHTML = inputToOutputWithCursor(elInput.value, caretPos(elInput), "<span class='block'></span>");
 }
 
 function pluginDvorakDual(elInput, elOutput) {
     function keyFilter(elInput, elOutput) {
         return function(e) {
-            var pos = caretPos(elInput);
-            elOutput.value = inputToOutputWithCursor(elInput.value, pos);
+            updateInputOutput(elInput, elOutput);
         };
     }
     elInput.addEventListener("keyup", keyFilter(elInput, elOutput), false);
+    // elInput.addEventListener("keypress click focus", keyFilter(elInput, elOutput), false);
     $(elInput).on('scroll', function () { $(elOutput).scrollTop($(this).scrollTop()); });
 }
