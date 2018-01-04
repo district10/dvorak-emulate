@@ -19,7 +19,10 @@
             }
             .block:after {
                 content: "";
-                border-right: 1px solid red;
+                box-shadow: 0 0 0 1px red;
+            }
+            pre {
+                padding: 2em;
             }
             #index {
                 position: absolute;
@@ -48,7 +51,7 @@
         <textarea id="textarea" rows="1"></textarea>
         <hr/>
         <div id="container">
-            <div><pre><code id="output" cols="50" rows="4"></code></pre></div>
+            <div><pre><code id="output"></code></pre></div>
             <textarea id="input" cols="50" rows="4"></textarea>
         </div>
         <a id="index" href="index.html">display virtual keyboard</a>
