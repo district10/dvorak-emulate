@@ -49,7 +49,7 @@ function caretPos(el) {
     return pos;
 }
 
-function pluginDvorak(el){
+function pluginDvorak(el) {
     function keyFilter(el, mapping) {
         return function(e) {
             var q = e.keyCode;
@@ -68,16 +68,21 @@ function pluginDvorak(el){
     el.addEventListener("keypress", keyFilter(el, qwerty2dvorak()), false);
 }
 
-function pluginDvorakDual(elInput, elOutput){
-    function keyFilter(elInput, mapping, elOutput) {
+function inputToOutputWithCursor(input, cursorPosition, cursorChar = "\u2588", mappingFn = qwerty2dvorak) {
+    var mapping = mappingFn();
+    var output = input.split("").map(function(c) {
+        return mapping[c.charCodeAt(0)] || c;
+    }).join("");
+    return output.substring(0, cursorPosition) + cursorChar + output.substring(cursorPosition);
+}
+
+function pluginDvorakDual(elInput, elOutput) {
+    function keyFilter(elInput, elOutput) {
         return function(e) {
-            var output = elInput.value.split("").map(function(c) {
-                return mapping[c.charCodeAt(0)] || c;
-            }).join("");
             var pos = caretPos(elInput);
-            elOutput.value = output.substring(0, pos) + "\u2588" + output.substring(pos);
+            elOutput.value = inputToOutputWithCursor(elInput.value, pos);
         };
     }
-    elInput.addEventListener("keyup", keyFilter(elInput, qwerty2dvorak(), elOutput), false);
+    elInput.addEventListener("keyup", keyFilter(elInput, elOutput), false);
     $(elInput).on('scroll', function () { $(elOutput).scrollTop($(this).scrollTop()); });
 }
