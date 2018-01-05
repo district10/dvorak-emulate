@@ -22,7 +22,7 @@
                 box-shadow: 0 0 0 1px red;
             }
             pre {
-                padding: 2em;
+                border: 1px solid gray;
             }
             #index {
                 position: absolute;
@@ -34,26 +34,30 @@
                 border: 1px solid gray;
             }
         </style>
-        <script type="text/javascript" src="http://tangzx.qiniudn.com/jquery.min.js"> </script>
+    </head>
+    <body >
+        <h1>DVORAK EMULATE</h1>
+        <hr/>
+        <div id="container" for="input">
+            <textarea id="input" cols="80" rows="1"></textarea>
+            <button class="btn">Copy Me</button>
+            <div id="output"></div>
+        </div>
+        <a id="index" href="index.html">display virtual keyboard</a>
         <script type="text/javascript" src="qwerty2dvorak.js"> </script>
+        <script type="text/javascript" src="clipboard.min.js"> </script>
         <script>
             window.onload = function(e){
-                pluginDvorak(document.getElementById("textarea"));
                 pluginDvorakDual(
                     document.getElementById("input"),
                     document.getElementById("output")
                 );
+                new Clipboard('.btn', {
+                    text: function(trigger) {
+                        return inputToOutputWithCursor(document.getElementById("input").value, 0, '');
+                    }
+                });
             };
         </script>
-    </head>
-    <body >
-        <h1>DVORAK EMULATE</h1>
-        <textarea id="textarea" rows="1"></textarea>
-        <hr/>
-        <div id="container">
-            <div><pre><code id="output"></code></pre></div>
-            <textarea id="input" cols="50" rows="4"></textarea>
-        </div>
-        <a id="index" href="index.html">display virtual keyboard</a>
     </body>
 </html>

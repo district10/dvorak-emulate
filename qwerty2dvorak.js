@@ -85,7 +85,9 @@ function inputToOutputWithCursor(input, cursorPosition, cursorChar = "\u2588", m
 }
 
 function updateInputOutput(elInput, elOutput) {
-    elOutput.innerHTML = inputToOutputWithCursor(elInput.value, caretPos(elInput), "<span class='block'></span>");
+    elOutput.innerHTML = "<pre><code>"
+        + inputToOutputWithCursor(elInput.value, caretPos(elInput), "<span class='block'></span>")
+        + "</code></pre>";
 }
 
 function pluginDvorakDual(elInput, elOutput) {
@@ -95,6 +97,4 @@ function pluginDvorakDual(elInput, elOutput) {
         };
     }
     elInput.addEventListener("keyup", keyFilter(elInput, elOutput), false);
-    // elInput.addEventListener("keypress click focus", keyFilter(elInput, elOutput), false);
-    $(elInput).on('scroll', function () { $(elOutput).scrollTop($(this).scrollTop()); });
 }
