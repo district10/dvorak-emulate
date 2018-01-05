@@ -5,10 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="utf-8">
         <style>
-            body, html {
-                margin: 5px;
+            body {
                 padding: 5px;
-                font-family: "TIBch", "Classic Grotesque W01", "Helvetica Neue", Arial, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei", SimSun, sans-serif; // from TypeIsBeautiful.com
             }
             textarea {
                 width:100%;
@@ -18,7 +16,7 @@
                 font-family: Monaco, Menlo, Consolas, "Courier New", Monospace, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", STXihei, Heiti, sans-serif;
             }
             .block:after {
-                content: "";
+                content: "\200B";
                 box-shadow: 0 0 0 1px red;
             }
             pre {
@@ -37,10 +35,9 @@
     </head>
     <body >
         <h1>DVORAK EMULATE</h1>
-        <hr/>
         <div id="container" for="input">
             <textarea id="input" cols="80" rows="1"></textarea>
-            <button class="btn">Copy Me</button>
+            <button class="btn">copy text below</button>
             <div id="output"></div>
         </div>
         <a id="index" href="index.html">display virtual keyboard</a>
