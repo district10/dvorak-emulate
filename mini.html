@@ -9,7 +9,8 @@
                 padding: 5px;
             }
             textarea {
-                width:100%;
+                width: 0px;
+                height: 0px;
             }
             #input, #output {
                 font-size:20pt;
@@ -35,10 +36,10 @@
     </head>
     <body >
         <h1>DVORAK EMULATE</h1>
-        <div id="container" for="input">
-            <textarea id="input" cols="80" rows="1"></textarea>
+        <div id="container" for="input" name="container">
+            <textarea id="input" name="input" cols="80" rows="1" autofocus="true"></textarea>
             <button class="btn">copy text below</button>
-            <div id="output"></div>
+            <div id="output">just type to begin</div>
         </div>
         <a id="index" href="index.html">display virtual keyboard</a>
         <script type="text/javascript" src="qwerty2dvorak.js"> </script>
@@ -49,6 +50,7 @@
                     document.getElementById("input"),
                     document.getElementById("output")
                 );
+                document.addEventListener("keydown", function() { document.getElementById("input").focus(); }, false);
                 new Clipboard('.btn', {
                     text: function(trigger) {
                         return inputToOutputWithCursor(document.getElementById("input").value, 0, '');
