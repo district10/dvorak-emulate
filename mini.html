@@ -9,8 +9,9 @@
                 padding: 5px;
             }
             textarea {
-                width: 0px;
-                height: 0px;
+                position: absolute;
+                left: 20px;
+                bottom: 20px;
             }
             #input, #output {
                 font-size:20pt;
@@ -37,13 +38,13 @@
     <body >
         <h1>DVORAK EMULATE</h1>
         <div id="container" for="input" name="container">
-            <textarea id="input" name="input" cols="80" rows="1" autofocus="true"></textarea>
+            <textarea id="input" name="input" cols="1" rows="1" autofocus="true"></textarea>
             <button class="btn">copy text below</button>
-            <div id="output">just type to begin</div>
+            <div id="output"></div>
         </div>
         <a id="index" href="index.html">display virtual keyboard</a>
-        <script type="text/javascript" src="qwerty2dvorak.js"> </script>
-        <script type="text/javascript" src="clipboard.min.js"> </script>
+        <script type="text/javascript" src="qwerty2dvorak.js"></script>
+        <script type="text/javascript" src="clipboard.min.js"></script>
         <script>
             window.onload = function(e){
                 pluginDvorakDual(
