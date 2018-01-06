@@ -78,12 +78,12 @@ function _map(array, iteratee) {
     return result.join("");
 }
 
-function inputToOutputWithCaret(input, cursorPosition, cursorChar = "\u2588", mappingFn = qwerty2dvorak) {
+function inputToOutputWithCaret(input, caretPosition, caretChar = "\u2588", mappingFn = qwerty2dvorak) {
     var mapping = mappingFn();
     var output = _map(input, function(c) { return mapping[c.charCodeAt(0)] || c; });
     return {
         output: output,
-        outputWithCaret: output.substring(0, cursorPosition) + cursorChar + output.substring(cursorPosition)
+        outputWithCaret: output.substring(0, caretPosition) + caretChar + output.substring(caretPosition)
     };
 }
 
@@ -91,35 +91,36 @@ function wrapIn(content, left = "<pre><code>", right = "</code></pre>") {
     return left + content + right;
 }
 
-function caret() {
+function caretBlock() {
     return "<span class='block'></span>";
 }
 
+var caret = caretBlock();
+
 function updateInputOutput(elInput, elOutput) {
-    var output = inputToOutputWithCaret(elInput.value, caretPos(elInput), caret());
+    var output = inputToOutputWithCaret(elInput.value, caretPos(elInput), caret);
     elOutput.rawOutput = output.output;
     elOutput.innerHTML = wrapIn(output.outputWithCaret);
 }
 
 function pluginDvorakDual(elInput, elOutput) {
-    function keyFilter(elInput, elOutput) {
-        return function(e) {
-            updateInputOutput(elInput, elOutput);
-        };
-    }
-
-    elOutput.updateCaretPosition = function (pos, caretChar = caret()) {
+    elOutput.updateCaretPosition = function (pos, caretChar = caret) {
         var output = elOutput.rawOutput;
         if (output) {
             elOutput.innerHTML = wrapIn(output.substring(0, pos) + caretChar + output.substring(pos));
         }
     };
-
-    elInput.addEventListener("keyup", keyFilter(elInput, elOutput), false);
+    elInput.addEventListener("keyup", function(e){
+        if (e.keyCode !== 8) {
+            updateInputOutput(elInput, elOutput);
+        }
+    }, false);
     elInput.addEventListener("keydown", function(e) {
+        if (e.keyCode === 8) {
+            updateInputOutput(elInput, elOutput);
+        }
         if ([37, 38, 39, 40].indexOf(e.keyCode) >= 0) {
             elOutput.updateCaretPosition(caretPos(elInput));
-            console.log("update");
         }
     }, false);
 }
