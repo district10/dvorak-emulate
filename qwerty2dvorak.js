@@ -78,16 +78,27 @@ function _map(array, iteratee) {
     return result.join("");
 }
 
-function inputToOutputWithCursor(input, cursorPosition, cursorChar = "\u2588", mappingFn = qwerty2dvorak) {
+function inputToOutputWithCaret(input, cursorPosition, cursorChar = "\u2588", mappingFn = qwerty2dvorak) {
     var mapping = mappingFn();
     var output = _map(input, function(c) { return mapping[c.charCodeAt(0)] || c; });
-    return output.substring(0, cursorPosition) + cursorChar + output.substring(cursorPosition);
+    return {
+        output: output,
+        outputWithCaret: output.substring(0, cursorPosition) + cursorChar + output.substring(cursorPosition)
+    };
+}
+
+function wrapIn(content, left = "<pre><code>", right = "</code></pre>") {
+    return left + content + right;
+}
+
+function caret() {
+    return "<span class='block'></span>";
 }
 
 function updateInputOutput(elInput, elOutput) {
-    elOutput.innerHTML = "<pre><code>"
-        + inputToOutputWithCursor(elInput.value, caretPos(elInput), "<span class='block'></span>")
-        + "</code></pre>";
+    var output = inputToOutputWithCaret(elInput.value, caretPos(elInput), caret());
+    elOutput.rawOutput = output.output;
+    elOutput.innerHTML = wrapIn(output.outputWithCaret);
 }
 
 function pluginDvorakDual(elInput, elOutput) {
@@ -96,5 +107,19 @@ function pluginDvorakDual(elInput, elOutput) {
             updateInputOutput(elInput, elOutput);
         };
     }
+
+    elOutput.updateCaretPosition = function (pos, caretChar = caret()) {
+        var output = elOutput.rawOutput;
+        if (output) {
+            elOutput.innerHTML = wrapIn(output.substring(0, pos) + caretChar + output.substring(pos));
+        }
+    };
+
     elInput.addEventListener("keyup", keyFilter(elInput, elOutput), false);
+    elInput.addEventListener("keydown", function(e) {
+        if ([37, 38, 39, 40].indexOf(e.keyCode) >= 0) {
+            elOutput.updateCaretPosition(caretPos(elInput));
+            console.log("update");
+        }
+    }, false);
 }
