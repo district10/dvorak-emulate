@@ -111,9 +111,7 @@ function pluginDvorakDual(elInput, elOutput) {
         }
     };
     elInput.addEventListener("keyup", function(e){
-        if (e.keyCode !== 8) {
-            updateInputOutput(elInput, elOutput);
-        }
+        updateInputOutput(elInput, elOutput);
     }, false);
     elInput.addEventListener("keydown", function(e) {
         if (e.keyCode === 8) {
